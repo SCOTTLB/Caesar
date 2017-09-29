@@ -48,12 +48,40 @@ def caesar_encrypt(plaintext,key):
     return ciphertext # returns ciphertext so it can be reused
 
 def caesar_decrypt(ciphertext,key):
-    """put an appropriate function doc string here"""
+    """Will decrypt any cipher text with the given key"""
     # very similar to caesar_encrypt(), but shift left
     print (f'[*] DECRYPTING - key: {key}; ciphertext: {ciphertext}')
-    #
-    plaintext=''   # replace this with your code
-    #
+
+    plaintext=''
+
+    # Sanity check input, ensure its formatted properly
+    ciphertext = ciphertext.upper()
+    ciphertext.replace(" ","")
+
+    # loop through all the letters
+    for ch in ciphertext:
+        # As no charset is provided we will validate it is a letter
+        if ch in string.ascii_uppercase:
+            # Need a counter
+            shift = key
+
+            # Get alphabetical position of ch
+            index = string.ascii_uppercase.index(ch)
+
+            # Do we still have places to move?
+            while shift > -1:
+                # assign the new char
+                ch = string.ascii_uppercase[index]
+                if index == 0:
+                    index = 25
+                else:
+                    index -= 1
+
+                shift -= 1
+            new=ch
+
+        plaintext=plaintext+new   # hold the output
+
     print (f'[*] plaintext: {plaintext}')
     return plaintext # returns plaintext so it can be reused
 
@@ -76,4 +104,4 @@ def main():
 
 # boilerplate
 if __name__ == '__main__':
-    caesar_encrypt("This is a test sentence",4)
+    caesar_encrypt("this is a test",20)
