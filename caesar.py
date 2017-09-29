@@ -37,9 +37,9 @@ def caesar_encrypt(plaintext,key):
                 else:
                     # Otherwise we can continue as normal
                     index += 1
+                # Add one to that counter!
                 shift += 1
-
-
+            # Save the new char
             new = ch
         else:
             new=ch # do nothing with characters not in charset
