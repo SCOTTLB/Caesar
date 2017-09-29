@@ -14,10 +14,11 @@ def caesar_encrypt(plaintext,key):
     """Will encrypt any plain text using the key provided"""
     print (f'[*] ENCRYPTING - key: {key}; plaintext: {plaintext}')
 
-    plaintext=plaintext.upper()     # convert plaintext to upper case
+    plaintext=plaintext.upper()    # convert plaintext to upper case
+    plaintext = plaintext.replace(" ", "") # Remove all spaces from string
     ciphertext=''    # initialise ciphertext as empty string
 
-    for ch in plaintext:
+    for ch in plaintext: #Loop through ever char in the plaintext
         if ch in charset:
             # Index is the int positon in the alphabet 0-25
             index = string.ascii_uppercase.index(ch)
@@ -27,16 +28,18 @@ def caesar_encrypt(plaintext,key):
 
             # Keep shifting untill we hit the required amount of shifts
             while shift != key+1:
-                # Loop when reaching the end of the charset
-                if index + key > 25:
-                    # TODO: what happens at the end
-                    print("looping")
-                    break
+                # Get the new char
+                ch = string.ascii_uppercase[index]
+                # check to see where in the charset we are
+                if index == len(charset):
+                    # If we are at the end we need to loop back to the start
+                    index = 0
                 else:
-                    # not going to hit the end opf the charset
-                    ch = string.ascii_uppercase[index]
-                    shift += 1
+                    # Otherwise we can continue as normal
                     index += 1
+                shift += 1
+
+
             new = ch
         else:
             new=ch # do nothing with characters not in charset
@@ -73,4 +76,4 @@ def main():
 
 # boilerplate
 if __name__ == '__main__':
-    caesar_encrypt("abcd",7)
+    caesar_encrypt("This is a test sentence",4)
