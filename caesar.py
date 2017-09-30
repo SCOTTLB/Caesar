@@ -15,7 +15,7 @@ def caesar_encrypt(plaintext,key):
     print (f'[*] ENCRYPTING - key: {key}; plaintext: {plaintext}')
 
     plaintext=plaintext.upper()    # convert plaintext to upper case
-    plaintext = plaintext.replace(" ", "") # Remove all spaces from string
+   # plaintext = plaintext.replace(" ", "") # Remove all spaces from string
     ciphertext=''    # initialise ciphertext as empty string
 
     for ch in plaintext: #Loop through ever char in the plaintext
@@ -63,12 +63,11 @@ def caesar_decrypt(ciphertext,key):
 
     # Sanity check input, ensure its formatted properly
     ciphertext = ciphertext.upper()
-    ciphertext.replace(" ","")
+   # ciphertext.replace(" ","")
 
     # loop through all the letters
     for ch in ciphertext:
-        # As no charset is provided we will validate it is a letter
-        if ch in string.ascii_uppercase:
+        if ch in charset:
             # Need a counter
             shift = key
 
@@ -80,23 +79,39 @@ def caesar_decrypt(ciphertext,key):
                 # assign the new char
                 ch = string.ascii_uppercase[index]
                 if index == 0:
-                    index = 25
+                    
+                    index = len(charset)-1
                 else:
                     index -= 1
 
                 shift -= 1
             new=ch
-
+        else:
+            # Preserve spaces
+            new=ch
         plaintext=plaintext+new   # hold the output
 
     print (f'[*] plaintext: {plaintext}')
     return plaintext # returns plaintext so it can be reused
 
 def caesar_crack(ciphertext):
-    """put an appropriate function doc string here"""
-    # how could you brute force crack a caesar cipher?
-    # your code here
+    """This function will crack any string it has been given"""
+    print(f'[*] Bruteforce caesar cipher\n')
+    for x in range(len(charset)):
+        
+        # Make a table to transform our charset
+        crack_table = str.maketrans(charset, charset[x:]+charset[:x])
+        # Apply the table to the sting
+        cracked = ciphertext.translate(crack_table)
 
+        # Make the output table pretty
+        if x > 9:
+            spacer = ''
+        else:
+            spacer = ' '
+
+        print('Shift: ',x,spacer,'| ',cracked)
+        print('------------------')
 
 def main():
     # test cases
@@ -111,4 +126,6 @@ def main():
 
 # boilerplate
 if __name__ == '__main__':
-    caesar_decrypt("NBCMCMUNYMN",20)
+    caesar_crack('PBATENGHYNGVBAFLBHUNIRPENPXRQGURPBQRNAQGURFUVSGJNFGUVEGRRA')
+   # caesar_encrypt("this is a test case string with spaces", 5)
+   # caesar_decrypt("YMNX NX F YJXY HFXJ XYWNSL BNYM XUFHJX", 5)
