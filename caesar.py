@@ -28,14 +28,21 @@ def caesar_encrypt(plaintext,key):
 
             # Keep shifting untill we hit the required amount of shifts
             while shift != key+1:
-                # Get the new char
-                ch = string.ascii_uppercase[index]
+                
                 # check to see where in the charset we are
-                if index == len(charset):
+                if index == len(charset)-1:
                     # If we are at the end we need to loop back to the start
+
+                    # Get the new char
+                    ch = string.ascii_uppercase[index]
+                    # Set our pointer back to the start of the alphabet
                     index = 0
                 else:
                     # Otherwise we can continue as normal
+
+                    # Get the new char
+                    ch = string.ascii_uppercase[index]
+                    # Advance the pointer one letter
                     index += 1
                 # Add one to that counter!
                 shift += 1
@@ -104,4 +111,4 @@ def main():
 
 # boilerplate
 if __name__ == '__main__':
-    caesar_encrypt("this is a test",20)
+    caesar_decrypt("NBCMCMUNYMN",20)
