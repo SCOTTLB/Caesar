@@ -5,7 +5,7 @@
 # Created: 23/9/17
 # note that you should add a module doc string!
 
-import string
+import string, time
 
 charset="ABCDEFGHIJKLMNOPQRSTUVWXYZ" # characters to be encrypted
 numchars=len(charset) # number of characters, for wrapping round
@@ -51,7 +51,7 @@ def caesar_encrypt(plaintext,key):
         else:
             new=ch # do nothing with characters not in charset
         ciphertext=ciphertext+new
-    print (f'[*] ciphertext: {ciphertext}')
+    print (f'[*] ciphertext: {ciphertext}\n')
     return ciphertext # returns ciphertext so it can be reused
 
 def caesar_decrypt(ciphertext,key):
@@ -91,14 +91,17 @@ def caesar_decrypt(ciphertext,key):
             new=ch
         plaintext=plaintext+new   # hold the output
 
-    print (f'[*] plaintext: {plaintext}')
+    print (f'[*] plaintext: {plaintext}\n')
     return plaintext # returns plaintext so it can be reused
 
 def caesar_crack(ciphertext):
     """This function will crack any string it has been given"""
     print(f'[*] Bruteforce caesar cipher\n')
+
+    # Get start time
+    start_time = time.time()
+    
     for x in range(len(charset)):
-        
         # Make a table to transform our charset
         crack_table = str.maketrans(charset, charset[x:]+charset[:x])
         # Apply the table to the sting
@@ -110,8 +113,10 @@ def caesar_crack(ciphertext):
         else:
             spacer = ' '
 
-        print('Shift: ',x,spacer,'| ',cracked)
+        print('Shift: ',(len(charset) - x),spacer,'| ',cracked)
         print('------------------')
+
+    print("Elapsed time: %.3fs" % (time.time() - start_time))
 
 def main():
     # test cases
@@ -122,10 +127,10 @@ def main():
     # call functions with text cases
     caesar_encrypt(plain1, key)
     caesar_decrypt(cipher1,key)
-    # caesar_crack(crackme)  # remove comment to test cracking
+    caesar_crack(crackme)  # remove comment to test cracking
 
 # boilerplate
 if __name__ == '__main__':
-    caesar_crack('PBATENGHYNGVBAFLBHUNIRPENPXRQGURPBQRNAQGURFUVSGJNFGUVEGRRA')
-   # caesar_encrypt("this is a test case string with spaces", 5)
-   # caesar_decrypt("YMNX NX F YJXY HFXJ XYWNSL BNYM XUFHJX", 5)
+    main()
+    crack = caesar_encrypt("way hey you have cracked me!", 16)
+    caesar_crack(crack)
