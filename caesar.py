@@ -114,7 +114,7 @@ def caesar_crack(ciphertext):
         # Apply the table to the sting
         cracked = ciphertext.translate(crack_table)
 
-        # Build a list of the entropy and the shift postion
+        # Build a list of the entropy, the shift postion and the cracked text
         eachEntropy.append(x)
         eachEntropy.append(entropyCalculation(cracked))
         eachEntropy.append(cracked)
@@ -180,11 +180,11 @@ def entropyCalculation(ciphertext):
 
     # loop through the ciphertext
     for x in range(len(ciphertext)):
-        # get the number position for each char
+        # get the number position for each char to map to the ENG_FREQUENCY array
         index = string.ascii_uppercase.index(ciphertext[x])
         # Add the chars entropy to the total entropy for that word
         totalE += math.log(ENG_FREQUENCY[index])
-
+    # returns a usable entropy value
     return -totalE / math.log(2) / len(ciphertext)
 
 def findSolution(entropy):
