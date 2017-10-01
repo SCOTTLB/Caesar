@@ -1,7 +1,7 @@
 # Script:  caesar.py
 # Desc:    encrypt and decrypt text with a Caesar cipher
 #          using defined character set with index
-# Author:  Petra Leimich
+# Author:  Scott Bean
 # Created: 23/9/17
 # note that you should add a module doc string!
 
@@ -14,7 +14,7 @@ def caesar_encrypt(plaintext,key):
     print (f'[*] ENCRYPTING - key: {key}; plaintext: {plaintext}')
 
     plaintext=plaintext.upper()    # convert plaintext to upper case
-   # plaintext = plaintext.replace(" ", "") # Remove all spaces from string
+    plaintext = plaintext.replace(" ", "") # Remove all spaces from string
     ciphertext=''    # initialise ciphertext as empty string
 
     for ch in plaintext: #Loop through ever char in the plaintext
@@ -128,8 +128,32 @@ def main():
     caesar_decrypt(cipher1,key)
     caesar_crack(crackme)  # remove comment to test cracking
 
+
+def ui():
+    print('\n######################################################')
+    print('#                                                    #')
+    print('#                   Caesar Cipher                    #')
+    print('#                    Scott Bean                      #')
+    print('#                       2017                         #')
+    print('#                                                    #')
+    print('######################################################\n')
+
+    testCase = input("Do you want to run the test cases (Y/N)?\n")
+
+    if "y" in testCase.lower():
+        main()
+    else:
+        text = input("Enter your string to be en/decrypted: ")
+        key = input("Enter your key or ? to bruteforece: ")
+        if "?" in key:
+            caesar_crack(text)
+        else:
+            mode = input("Enter e to encrypt or d to decrypt: ")
+            if "e" in mode.lower():
+                caesar_encrypt(text,int(key))
+            else:
+                caesar_decrypt(text,int(key))
+
 # boilerplate
 if __name__ == '__main__':
-    main()
-    crack = caesar_encrypt("way hey you have cracked me!", 16)
-    caesar_crack(crack)
+    ui()
