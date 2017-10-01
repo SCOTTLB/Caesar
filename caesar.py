@@ -5,7 +5,8 @@
 # Created: 23/9/17
 # note that you should add a module doc string!
 
-import string, time
+import string, time, math
+from operator import itemgetter
 
 charset="ABCDEFGHIJKLMNOPQRSTUVWXYZ" # characters to be encrypted
 
@@ -60,9 +61,9 @@ def caesar_decrypt(ciphertext,key):
 
     plaintext=''
 
-    # Sanity check input, ensure its formatted properly
+    # Remove spaces and upper case input
     ciphertext = ciphertext.upper()
-   # ciphertext.replace(" ","")
+    ciphertext = ciphertext.replace(" ","")
 
     # loop through all the letters
     for ch in ciphertext:
@@ -99,23 +100,30 @@ def caesar_crack(ciphertext):
 
     # Get start time
     start_time = time.time()
+    # Remove spaces and upper case input
+    ciphertext = ciphertext.upper()
+    ciphertext = ciphertext.replace(" ","")
+    # This is a 2D array, totalEntropy is the 1st dimention
+    totalEntropy = []
 
     for x in range(len(charset)):
+        # second dimention of the totalEntropy array
+        eachEntropy = []
         # Make a table to transform our charset
         crack_table = str.maketrans(charset, charset[x:]+charset[:x])
         # Apply the table to the sting
         cracked = ciphertext.translate(crack_table)
 
-        # Make the output table pretty
-        if x > 9:
-            spacer = ''
-        else:
-            spacer = ' '
+        # Build a list of the entropy and the shift postion
+        eachEntropy.append(x)
+        eachEntropy.append(entropyCalculation(cracked))
+        eachEntropy.append(cracked)
+        totalEntropy.append(eachEntropy)
 
-        print('Shift: ',(len(charset) - x),spacer,'| ',cracked)
-        print('------------------')
+    soultion = findSolution(totalEntropy)
 
     print("Elapsed time: %.3fs" % (time.time() - start_time))
+    return soultion
 
 def main():
     # test cases
@@ -138,21 +146,55 @@ def ui():
     print('#                                                    #')
     print('######################################################\n')
 
+    # Run the test case code?
     testCase = input("Do you want to run the test cases (Y/N)?\n")
 
+    # Call main if the test cases should be run
     if "y" in testCase.lower():
         main()
     else:
+        # Get the string and key/bruteforce
         text = input("Enter your string to be en/decrypted: ")
-        key = input("Enter your key or ? to bruteforece: ")
+        key = input("Enter your key or ? to bruteforce: ")
         if "?" in key:
+            # If we dont know the key, crack it
             caesar_crack(text)
         else:
+            # Should we encrypt or decrypt this string?
             mode = input("Enter e to encrypt or d to decrypt: ")
+            # Call correct function
             if "e" in mode.lower():
                 caesar_encrypt(text,int(key))
             else:
                 caesar_decrypt(text,int(key))
+
+
+def entropyCalculation(ciphertext):
+
+    # An array of frequencies of letters in the english language A-Z
+    ENG_FREQUENCY = [0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, 0.06094, 0.06966, 0.00153, 0.00772, 0.04025, 0.02406,
+	0.06749, 0.07507, 0.01929, 0.00095, 0.05987, 0.06327, 0.09056, 0.02758, 0.00978, 0.02360, 0.00150, 0.01974, 0.00074]
+
+    # Total entropy
+    totalE = 0
+
+    # loop through the ciphertext
+    for x in range(len(ciphertext)):
+        # get the number position for each char
+        index = string.ascii_uppercase.index(ciphertext[x])
+        # Add the chars entropy to the total entropy for that word
+        totalE += math.log(ENG_FREQUENCY[index])
+
+    return -totalE / math.log(2) / len(ciphertext)
+
+def findSolution(entropy):
+    # Sort the array by lowest entropy
+    entropy = sorted(entropy, key=itemgetter(1))
+
+    # Print the result
+    print('Shift: ',entropy[0][0],' | ',entropy[0][2])
+    print('------------------')
+
 
 # boilerplate
 if __name__ == '__main__':
