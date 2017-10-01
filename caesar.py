@@ -8,7 +8,6 @@
 import string, time
 
 charset="ABCDEFGHIJKLMNOPQRSTUVWXYZ" # characters to be encrypted
-numchars=len(charset) # number of characters, for wrapping round
 
 def caesar_encrypt(plaintext,key):
     """Will encrypt any plain text using the key provided"""
@@ -28,7 +27,7 @@ def caesar_encrypt(plaintext,key):
 
             # Keep shifting untill we hit the required amount of shifts
             while shift != key+1:
-                
+
                 # check to see where in the charset we are
                 if index == len(charset)-1:
                     # If we are at the end we need to loop back to the start
@@ -79,7 +78,7 @@ def caesar_decrypt(ciphertext,key):
                 # assign the new char
                 ch = string.ascii_uppercase[index]
                 if index == 0:
-                    
+
                     index = len(charset)-1
                 else:
                     index -= 1
@@ -100,7 +99,7 @@ def caesar_crack(ciphertext):
 
     # Get start time
     start_time = time.time()
-    
+
     for x in range(len(charset)):
         # Make a table to transform our charset
         crack_table = str.maketrans(charset, charset[x:]+charset[:x])
