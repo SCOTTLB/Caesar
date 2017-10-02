@@ -196,7 +196,7 @@ def findSolution(entropy):
     print('Shift: ',entropy[0][0],' | ',entropy[0][2])
     print('------------------')
 
-
 # boilerplate
 if __name__ == '__main__':
+    # Call the UI function as it will call all other methods
     ui()
