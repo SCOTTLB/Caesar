@@ -136,8 +136,8 @@ def main():
     caesar_decrypt(cipher1,key)
     caesar_crack(crackme)  # remove comment to test cracking
 
-
 def ui():
+    """Displays the menu system"""
     print('\n######################################################')
     print('#                                                    #')
     print('#                   Caesar Cipher                    #')
@@ -168,8 +168,8 @@ def ui():
             else:
                 caesar_decrypt(text,int(key))
 
-
 def entropyCalculation(ciphertext):
+    """Calculates the entropy of the ciphertext"""
 
     # An array of frequencies of letters in the english language A-Z
     ENG_FREQUENCY = [0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, 0.06094, 0.06966, 0.00153, 0.00772, 0.04025, 0.02406,
@@ -188,6 +188,7 @@ def entropyCalculation(ciphertext):
     return -totalE / math.log(2) / len(ciphertext)
 
 def findSolution(entropy):
+    """Prints the answer with the lowest entropy"""
     # Sort the array by lowest entropy
     entropy = sorted(entropy, key=itemgetter(1))
 
