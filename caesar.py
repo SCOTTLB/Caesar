@@ -3,7 +3,9 @@
 #          using defined character set with index
 # Author:  Scott Bean
 # Created: 23/9/17
-# note that you should add a module doc string!
+"""The code for the frequency analysis in caesar_crack is adapted from
+https://www.nayuki.io/res/automatic-caesar-cipher-breaker-javascript/automatic-caesar-cipher-breaker.js
+;a javascript implimentation of the same function"""
 
 import string, time, math
 from operator import itemgetter
