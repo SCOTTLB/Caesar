@@ -23,7 +23,7 @@ def caesar_encrypt(plaintext,key):
     for ch in plaintext: #Loop through ever char in the plaintext
         if ch in charset:
             # Index is the int positon in the alphabet 0-25
-            index = string.ascii_uppercase.index(ch)
+            index = charset.index(ch)
 
             # Shift indicates how many places we have moved - a counter
             shift = 0
@@ -36,14 +36,14 @@ def caesar_encrypt(plaintext,key):
                     # If we are at the end we need to loop back to the start
 
                     # Get the new char
-                    ch = string.ascii_uppercase[index]
+                    ch = charset[index]
                     # Set our pointer back to the start of the alphabet
                     index = 0
                 else:
                     # Otherwise we can continue as normal
 
                     # Get the new char
-                    ch = string.ascii_uppercase[index]
+                    ch = charset[index]
                     # Advance the pointer one letter
                     index += 1
                 # Add one to that counter!
@@ -74,12 +74,12 @@ def caesar_decrypt(ciphertext,key):
             shift = key
 
             # Get alphabetical position of ch
-            index = string.ascii_uppercase.index(ch)
+            index = charset.index(ch)
 
             # Do we still have places to move?
             while shift > -1:
                 # assign the new char
-                ch = string.ascii_uppercase[index]
+                ch = charset[index]
                 if index == 0:
 
                     index = len(charset)-1
@@ -102,9 +102,11 @@ def caesar_crack(ciphertext):
 
     # Get start time
     start_time = time.time()
+
     # Remove spaces and upper case input
     ciphertext = ciphertext.upper()
     ciphertext = ciphertext.replace(" ","")
+
     # This is a 2D array, totalEntropy is the 1st dimention
     totalEntropy = []
 
