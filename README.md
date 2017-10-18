@@ -2,6 +2,6 @@ Caesar
 ======
 
 Run the program with
-```python
+```bash
 python3 caesar.py
 ```
