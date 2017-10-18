@@ -1,8 +1,5 @@
 Caesar
 ======
 
-# TODO:
-Add extra stuff:
-+ Menu system
-+ Dictionary comparison
-+ entropy of letters - could be tricky
+Run the program with ```python
+python3 caesar.py```
